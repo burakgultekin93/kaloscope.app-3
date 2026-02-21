@@ -8,6 +8,7 @@ import type { DetectedFood } from '@/types/food';
 import { useLocation } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/hooks/useAuth';
+import { FoodSearchModal } from '@/components/scan/FoodSearchModal';
 import { toast } from 'sonner';
 
 export default function ScanResult() {
@@ -30,6 +31,11 @@ export default function ScanResult() {
 
     const removeFood = (id: string) => {
         setFoods(foods.filter(f => f.id !== id));
+    };
+
+    const handleAddFood = (food: DetectedFood) => {
+        setFoods([...foods, food]);
+        toast.success(`${food.name_tr} listeye eklendi`);
     };
 
     const updateGrams = (id: string, grams: number) => {
@@ -178,9 +184,11 @@ export default function ScanResult() {
                     ))}
                 </AnimatePresence>
 
-                <Button variant="outline" className="w-full h-14 border-dashed rounded-2xl border-2 hover:bg-zinc-100 dark:hover:bg-zinc-800">
-                    <Search className="mr-2 size-5" /> Yemek Ara & Ekle
-                </Button>
+                <FoodSearchModal onAdd={handleAddFood}>
+                    <Button variant="outline" className="w-full h-14 border-dashed rounded-2xl border-2 hover:bg-zinc-100 dark:hover:bg-zinc-800">
+                        <Search className="mr-2 size-5" /> Yemek Ara & Ekle
+                    </Button>
+                </FoodSearchModal>
             </main>
 
             {/* Fixed Bottom Action Bar */}
