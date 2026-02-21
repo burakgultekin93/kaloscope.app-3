@@ -108,7 +108,7 @@ export default function ScanResult() {
             }
 
             toast.success('Öğün başarıyla günlüğe eklendi!');
-            navigate('/app');
+            navigate('/app/diary');
         } catch (error) {
             console.error('Kayıt hatası:', error);
             toast.error('Öğün kaydedilirken bir hata oluştu');
@@ -267,7 +267,7 @@ export default function ScanResult() {
                         <RefreshCcw className="size-5" />
                     </Button>
                     <Button disabled={isSaving || foods.length === 0} onClick={handleSave} className="flex-1 h-14 bg-emerald-500 hover:bg-emerald-600 text-white rounded-2xl font-bold text-lg shadow-lg shadow-emerald-500/20">
-                        {isSaving ? <Loader2 className="mr-2 size-6 animate-spin" /> : <Check className="mr-2 size-6" />} Kaydet
+                        {isSaving ? <Loader2 className="mr-2 size-6 animate-spin" /> : <Check className="mr-2 size-6" />} Günlüğe Ekle & Git
                     </Button>
                 </div>
             </div>
