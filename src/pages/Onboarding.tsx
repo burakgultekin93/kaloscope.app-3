@@ -27,7 +27,7 @@ export default function Onboarding() {
         weekly_goal_kg: 0.5,
     });
 
-    const [calculatedGoals, setCalculatedGoals] = useState<any>(null);
+    const [calculatedGoals, setCalculatedGoals] = useState<{ calories: number } | null>(null);
 
     const nextStep = () => setStep((s) => Math.min(s + 1, 5));
     const prevStep = () => setStep((s) => Math.max(s - 1, 1));
@@ -35,7 +35,9 @@ export default function Onboarding() {
     const handleComplete = async () => {
         try {
             const goals = await completeOnboarding(formData);
-            setCalculatedGoals(goals);
+            if (goals) {
+                setCalculatedGoals(goals);
+            }
             setTimeout(() => {
                 if (selectedPlan === 'pro') {
                     navigate('/app/paywall', { state: { fromOnboarding: true } });
@@ -43,8 +45,8 @@ export default function Onboarding() {
                     navigate('/app');
                 }
             }, 3000); // Wait 3s on result screen
-        } catch (e) {
-            console.error(e);
+        } catch (err: unknown) {
+            console.error(err);
         }
     };
 
@@ -79,7 +81,7 @@ export default function Onboarding() {
                                 <Card
                                     key={g}
                                     className={`p-6 flex flex-col items-center justify-center gap-4 cursor-pointer transition-all border-2 rounded-2xl ${formData.gender === g ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/20' : 'border-zinc-200 dark:border-zinc-800'}`}
-                                    onClick={() => setFormData({ ...formData, gender: g as any })}
+                                    onClick={() => setFormData({ ...formData, gender: g as 'male' | 'female' })}
                                 >
                                     <Logo size={32} variant={formData.gender === g ? 'light' : 'dark'} className={formData.gender === g ? '' : 'opacity-40'} />
                                     <span className="font-bold capitalize text-lg">{g === 'male' ? 'Erkek' : 'Kadın'}</span>
@@ -132,7 +134,7 @@ export default function Onboarding() {
                                 <Card
                                     key={act.id}
                                     className={`p-5 flex items-center gap-5 cursor-pointer transition-all border-2 rounded-[1.5rem] ${formData.activity_level === act.id ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/20' : 'border-zinc-200 dark:border-zinc-800'}`}
-                                    onClick={() => setFormData({ ...formData, activity_level: act.id as any })}
+                                    onClick={() => setFormData({ ...formData, activity_level: act.id as 'sedentary' | 'light' | 'moderate' | 'active' })}
                                 >
                                     <div className={`p-3 rounded-xl ${formData.activity_level === act.id ? 'bg-emerald-100 dark:bg-emerald-900 text-emerald-600 dark:text-emerald-400' : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-500'}`}>
                                         {act.icon}
@@ -164,7 +166,7 @@ export default function Onboarding() {
                                 <Card
                                     key={goal.id}
                                     className={`p-4 flex items-center justify-center cursor-pointer transition-all border-2 ${formData.goal_type === goal.id ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-300' : 'border-zinc-200 dark:border-zinc-800'}`}
-                                    onClick={() => setFormData({ ...formData, goal_type: goal.id as any })}
+                                    onClick={() => setFormData({ ...formData, goal_type: goal.id as 'lose' | 'maintain' | 'gain' })}
                                 >
                                     <span className="font-semibold">{goal.label}</span>
                                 </Card>
@@ -191,7 +193,7 @@ export default function Onboarding() {
                                 <div className="p-6 bg-zinc-100 dark:bg-zinc-900 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-inner">
                                     <div className="text-5xl font-mono font-bold text-zinc-900 dark:text-white mb-2">
                                         {calculatedGoals.calories}
-                                        <span className="text-xl text-zinc-500 font-sans"> kcal</span>
+                                        <span className="text-xl text-zinc-500 font-sans font-bold"> kcal</span>
                                     </div>
                                     <p className="text-zinc-500 font-medium">Günlük Hedefiniz</p>
                                 </div>
