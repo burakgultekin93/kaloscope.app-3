@@ -5,6 +5,7 @@ import { WaterTracker } from '@/components/dashboard/WaterTracker';
 import { StreakWidget } from '@/components/dashboard/StreakWidget';
 import { useProfile } from '@/hooks/useProfile';
 import { useMeals } from '@/hooks/useMeals';
+import { Logo } from '@/components/brand';
 
 export default function Dashboard() {
     const { profile } = useProfile();
@@ -23,12 +24,17 @@ export default function Dashboard() {
         <div className="flex flex-col min-h-screen">
             {/* Header */}
             <header className="px-4 pt-6 pb-2 flex justify-between items-center sticky top-0 bg-zinc-50/80 dark:bg-zinc-950/80 backdrop-blur-xl z-10 border-b border-zinc-200 dark:border-zinc-800">
-                <div>
-                    <h1 className="text-2xl font-bold">Bugün</h1>
-                    <p className="text-sm text-zinc-500">22 Şubat Perşembe</p>
+                <div className="flex items-center gap-3">
+                    <Logo size={40} variant="light" className="dark:hidden" />
+                    <Logo size={40} variant="dark" className="hidden dark:block" />
+                    <div>
+                        <h1 className="text-2xl font-bold">Bugün</h1>
+                        <p className="text-sm text-zinc-500 font-medium">22 Şubat Perşembe</p>
+                    </div>
                 </div>
                 <StreakWidget />
             </header>
+
 
             <div className="px-4 py-4 space-y-6 overflow-x-hidden">
                 {/* Rings */}

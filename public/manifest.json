@@ -1,0 +1,23 @@
+{
+    "name": "KaloScope",
+    "short_name": "KaloScope",
+    "description": "AI-powered Turkish calorie counter and meal analyzer.",
+    "theme_color": "#10b981",
+    "background_color": "#09090b",
+    "display": "standalone",
+    "start_url": "/app",
+    "icons": [
+        {
+            "src": "/favicon.svg",
+            "sizes": "192x192",
+            "type": "image/svg+xml",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/favicon.svg",
+            "sizes": "512x512",
+            "type": "image/svg+xml",
+            "purpose": "any maskable"
+        }
+    ]
+}

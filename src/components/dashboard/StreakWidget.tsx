@@ -1,7 +1,7 @@
-import { Flame } from 'lucide-react';
 import { useStreak } from '@/hooks/useStreak';
 import Confetti from 'react-confetti';
 import { useEffect, useState } from 'react';
+import { IconStreak } from '@/components/brand';
 
 export const StreakWidget = () => {
     const { current_streak, showConfetti, setShowConfetti, loading } = useStreak();
@@ -44,9 +44,10 @@ export const StreakWidget = () => {
                 </div>
             )}
             <div className="flex items-center gap-1.5 bg-orange-100 dark:bg-orange-950/30 text-orange-600 dark:text-orange-400 px-3 py-1.5 rounded-full font-bold text-sm border border-orange-200/50 dark:border-orange-900/50 shadow-sm transition-all hover:scale-105 active:scale-95 cursor-default">
-                <Flame className={`size-4 fill-orange-500 ${current_streak > 0 ? 'animate-pulse' : 'opacity-50'}`} />
+                <IconStreak size={20} className={current_streak > 0 ? 'animate-pulse' : 'opacity-50'} />
                 {current_streak} Gün
             </div>
         </>
     );
 };
+

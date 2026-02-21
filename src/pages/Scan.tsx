@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Camera, Image as ImageIcon, ScanLine, Search } from 'lucide-react';
+import { Image as ImageIcon, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
 import { optimizeImage } from '@/utils/imageOptimizer';
@@ -8,6 +8,7 @@ import { analyzeFoodImage } from '@/lib/analyzeFood';
 import { getBarcodeProduct } from '@/lib/openFoodFacts';
 import { BarcodeScanner } from '@/components/scan/BarcodeScanner';
 import { toast } from 'sonner';
+import { IconScan, Wordmark } from '@/components/brand';
 
 export default function Scan() {
     const [mode, setMode] = useState<'ai' | 'barcode'>('ai');
@@ -75,9 +76,9 @@ export default function Scan() {
                         exit={{ opacity: 0 }}
                         className="flex flex-col items-center justify-center h-full w-full fixed inset-0 z-50 bg-zinc-950/90 backdrop-blur-md"
                     >
-                        <div className="relative mb-8">
-                            <ScanLine className="size-24 text-emerald-500 animate-pulse" />
-                            <div className="absolute inset-0 border-4 border-emerald-500 rounded-xl animate-ping opacity-20" />
+                        <div className="relative mb-8 text-emerald-500">
+                            <IconScan size={120} className="animate-pulse" />
+                            <div className="absolute inset-0 border-4 border-emerald-500 rounded-full animate-ping opacity-20" />
                         </div>
                         <h2 className="text-2xl font-bold mb-2">Sistem Devrede</h2>
                         <p className="text-emerald-400 font-medium animate-pulse">{loadingMsg}</p>
@@ -88,6 +89,8 @@ export default function Scan() {
                         animate={{ opacity: 1 }}
                         className="w-full max-w-md px-6 flex flex-col items-center space-y-6 pt-12"
                     >
+                        <Wordmark height={48} variant="dark" className="mb-4" />
+
                         {/* Tabs */}
                         <div className="flex bg-zinc-900 border border-zinc-800 p-1 rounded-2xl w-full max-w-[280px] mb-4 shadow-inner">
                             <button
@@ -112,11 +115,11 @@ export default function Scan() {
                                 </div>
 
                                 <div
-                                    className="w-64 h-64 rounded-[3rem] border-4 border-emerald-500/20 bg-zinc-900 border-dashed flex flex-col items-center justify-center gap-4 cursor-pointer hover:bg-zinc-800 transition-colors"
+                                    className="w-64 h-64 rounded-[3.5rem] border-4 border-emerald-500/20 bg-zinc-900 border-dashed flex flex-col items-center justify-center gap-4 cursor-pointer hover:bg-zinc-800 transition-colors group"
                                     onClick={handleCapture}
                                 >
-                                    <Camera className="size-16 text-emerald-500" />
-                                    <span className="font-semibold text-zinc-300">Fotoğraf Çek</span>
+                                    <IconScan size={80} color="#10b981" className="group-hover:scale-110 transition-transform duration-500" />
+                                    <span className="font-semibold text-zinc-300 text-lg">Fotoğraf Çek</span>
                                 </div>
 
                                 <div className="flex items-center gap-4 w-full">
@@ -142,6 +145,7 @@ export default function Scan() {
                                 >
                                     <Search className="mr-2 size-5" /> Manuel Arama & Ekleme
                                 </Button>
+
 
                                 <input
                                     type="file"

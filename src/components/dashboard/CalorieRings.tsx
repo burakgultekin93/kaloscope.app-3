@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { IconFlame } from '@/components/brand';
 
 interface CalorieRingsProps {
     current: number;
@@ -42,12 +43,14 @@ export const CalorieRings = ({ current, target }: CalorieRingsProps) => {
 
             {/* Inner Content */}
             <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                <div className="text-3xl font-bold font-mono text-zinc-900 dark:text-white mt-2">
+                <IconFlame size={32} className="mb-2" />
+                <div className="text-3xl font-bold font-mono text-zinc-900 dark:text-white leading-none">
                     {current}
                 </div>
-                <div className="text-zinc-500 dark:text-zinc-400 font-medium text-sm flex items-center gap-1">
+                <div className="text-zinc-500 dark:text-zinc-400 font-medium text-sm flex items-center gap-1 mt-1">
                     <span className="text-emerald-500">/</span> {target} kcal
                 </div>
+
                 <div className="mt-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
                     Kalan: {Math.max(0, target - current)}
                 </div>

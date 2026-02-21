@@ -1,10 +1,11 @@
-import { User, ShieldCheck, LogOut, ChevronRight, Crown, Moon, Apple } from 'lucide-react';
+import { LogOut, ChevronRight, Crown, Moon } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useProfile } from '@/hooks/useProfile';
 import type { DietPreference } from '@/utils/calories';
 import { useTheme } from '@/app/providers';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { Logo, IconProfile, IconPlate, IconBadge } from '@/components/brand';
 
 export default function Profile() {
     const { user, signOut } = useAuth();
@@ -25,7 +26,7 @@ export default function Profile() {
                 <h1 className="text-2xl font-bold mb-6">Profilim</h1>
                 <div className="flex items-center gap-4">
                     <div className="size-20 bg-white/20 rounded-full flex items-center justify-center border-2 border-white/40 shadow-inner">
-                        <User className="size-10 text-white" />
+                        <Logo size={50} variant="white" />
                     </div>
                     <div>
                         <h2 className="text-xl font-bold">{user?.user_metadata?.full_name || 'Kullanıcı'}</h2>
@@ -58,7 +59,7 @@ export default function Profile() {
 
                     <div className="flex items-center justify-between p-4 border-b border-zinc-100 dark:border-zinc-800 cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-800/50">
                         <div className="flex items-center gap-3">
-                            <div className="p-2 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-xl"><User className="size-4" /></div>
+                            <div className="p-2 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-xl"><IconProfile size={18} /></div>
                             <span className="font-medium text-sm">Hedeflerim & Vücut Ölçülerim</span>
                         </div>
                         <ChevronRight className="size-4 text-zinc-400" />
@@ -67,7 +68,7 @@ export default function Profile() {
                     {/* Diet Preference Selector */}
                     <div className="relative flex items-center justify-between p-4 border-b border-zinc-100 dark:border-zinc-800 cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-800/50">
                         <div className="flex items-center gap-3">
-                            <div className="p-2 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded-xl"><Apple className="size-4" /></div>
+                            <div className="p-2 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded-xl"><IconPlate size={18} /></div>
                             <div className="flex flex-col">
                                 <span className="font-medium text-sm">Diyet Tercihi</span>
                                 <span className="text-xs text-zinc-500 capitalize">{profile?.diet_preference || 'Standard'}</span>
@@ -92,11 +93,12 @@ export default function Profile() {
 
                     <div className="flex items-center justify-between p-4 border-b border-zinc-100 dark:border-zinc-800 cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-800/50">
                         <div className="flex items-center gap-3">
-                            <div className="p-2 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-xl"><ShieldCheck className="size-4" /></div>
+                            <div className="p-2 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-xl"><IconBadge size={18} /></div>
                             <span className="font-medium text-sm">Hesap Gizliliği</span>
                         </div>
                         <ChevronRight className="size-4 text-zinc-400" />
                     </div>
+
 
                     <div className="flex items-center justify-between p-4 border-b border-zinc-100 dark:border-zinc-800 cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-800/50" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
                         <div className="flex items-center gap-3">

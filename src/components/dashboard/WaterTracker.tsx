@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Droplet } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
 import { useProfile } from '@/hooks/useProfile';
 import { supabase } from '@/lib/supabase';
+import { IconWater } from '@/components/brand';
 
 export const WaterTracker = () => {
     const { user } = useAuth();
@@ -64,9 +64,10 @@ export const WaterTracker = () => {
         <div className="bg-cyan-50 dark:bg-cyan-950/20 rounded-2xl p-4 border border-cyan-100 dark:border-cyan-900 shadow-sm">
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
-                    <Droplet className="text-cyan-500 size-5 fill-cyan-500" />
+                    <IconWater size={20} className="text-cyan-500" />
                     <h3 className="font-bold text-cyan-900 dark:text-cyan-100">Su Takibi</h3>
                 </div>
+
                 <div className="text-sm font-semibold text-cyan-700 dark:text-cyan-400">
                     <span className="text-lg">{water}</span> / {target} ml
                 </div>

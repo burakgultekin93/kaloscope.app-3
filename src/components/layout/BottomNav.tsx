@@ -1,16 +1,16 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { Home, BookOpen, BarChart2, User, Plus } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Logo, IconPlate, IconScan, IconStats, IconProfile } from '@/components/brand';
 
 export const BottomNav = () => {
     const navigate = useNavigate();
 
     const navItems = [
-        { label: 'Ana Sayfa', icon: Home, path: '/app' },
-        { label: 'Günlük', icon: BookOpen, path: '/app/diary' },
-        { label: 'Scan', icon: Plus, path: '/app/scan', isFab: true },
-        { label: 'İstatistik', icon: BarChart2, path: '/app/stats' },
-        { label: 'Profil', icon: User, path: '/app/profile' },
+        { label: 'Ana Sayfa', icon: Logo, path: '/app' },
+        { label: 'Günlük', icon: IconPlate, path: '/app/diary' },
+        { label: 'Scan', icon: IconScan, path: '/app/scan', isFab: true },
+        { label: 'İstatistik', icon: IconStats, path: '/app/stats' },
+        { label: 'Profil', icon: IconProfile, path: '/app/profile' },
     ];
 
     return (
@@ -23,7 +23,7 @@ export const BottomNav = () => {
                                 onClick={() => navigate(item.path)}
                                 className="size-16 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white flex items-center justify-center shadow-lg shadow-emerald-500/30 transition-transform active:scale-95 border-4 border-white dark:border-zinc-950"
                             >
-                                <Plus className="size-8" />
+                                <IconScan size={32} color="white" />
                             </button>
                         </div>
                     );
@@ -41,7 +41,11 @@ export const BottomNav = () => {
                             )
                         }
                     >
-                        <item.icon className="size-6 mb-1" />
+                        <item.icon
+                            size={24}
+                            className="mb-1"
+                            {...(item.label === 'Ana Sayfa' ? { variant: 'mono' } : {})}
+                        />
                         <span className="text-[10px] font-medium">{item.label}</span>
                     </NavLink>
                 );
@@ -49,3 +53,4 @@ export const BottomNav = () => {
         </div>
     );
 };
+

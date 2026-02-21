@@ -1,0 +1,12 @@
+export { default as IconScan } from './IconScan';
+export { default as IconCalorieRing } from './IconCalorieRing';
+export { default as IconFlame } from './IconFlame';
+export { default as IconLeaf } from './IconLeaf';
+export { default as IconPlate } from './IconPlate';
+export { default as IconWater } from './IconWater';
+export { default as IconSlider } from './IconSlider';
+export { default as IconStreak } from './IconStreak';
+export { default as IconBadge } from './IconBadge';
+export { default as IconMic } from './IconMic';
+export { default as IconStats } from './IconStats';
+export { default as IconProfile } from './IconProfile';

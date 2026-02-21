@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Trash2, RefreshCcw, Check, Search, Loader2, Plus } from 'lucide-react';
+import { ArrowLeft, Trash2, RefreshCcw, Check, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import type { DetectedFood } from '@/types/food';
@@ -11,6 +11,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { FoodSearchModal } from '@/components/scan/FoodSearchModal';
 import { ManualFoodAddModal } from '@/components/scan/ManualFoodAddModal';
 import { toast } from 'sonner';
+import { IconPlate, IconScan, IconLeaf, IconFlame, IconSlider } from '@/components/brand';
 
 export default function ScanResult() {
     const navigate = useNavigate();
@@ -140,10 +141,11 @@ export default function ScanResult() {
 
                 {foods.length === 0 && (
                     <div className="flex flex-col items-center justify-center py-16 bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-200 dark:border-zinc-800 border-dashed text-zinc-500">
-                        <Search className="size-12 mb-4 opacity-50 text-emerald-500" />
-                        <p className="font-medium text-sm text-center px-8">Listeniz şu an boş.<br />Aşağıdaki butonları kullanarak yemeğinizi aratabilir veya tamamen kendi besininizi oluşturabilirsiniz.</p>
+                        <IconPlate size={64} className="mb-4 opacity-50" />
+                        <p className="font-medium text-sm text-center px-8 text-zinc-400">Listeniz şu an boş.<br />Aşağıdaki butonları kullanarak yemeğinizi aratabilir veya tamamen kendi besininizi oluşturabilirsiniz.</p>
                     </div>
                 )}
+
 
                 <AnimatePresence>
                     {foods.map((food, i) => (
@@ -184,7 +186,10 @@ export default function ScanResult() {
                             {/* Slider */}
                             <div className="space-y-6">
                                 <div className="flex items-center justify-between text-sm font-semibold">
-                                    <span className="text-zinc-500">Porsiyon</span>
+                                    <div className="flex items-center gap-1.5 text-zinc-500">
+                                        <IconSlider size={16} />
+                                        <span>Porsiyon</span>
+                                    </div>
                                     <span className="text-zinc-900 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-800 px-3 py-1 rounded-full">{food.estimated_grams}g</span>
                                 </div>
 
@@ -220,13 +225,13 @@ export default function ScanResult() {
                 <div className="grid grid-cols-2 gap-3">
                     <FoodSearchModal onAdd={handleAddFood}>
                         <Button variant="outline" className="w-full h-14 border-dashed rounded-2xl border-2 hover:bg-zinc-100 dark:hover:bg-zinc-800">
-                            <Search className="mr-2 size-5" /> Yemek Ara
+                            <IconScan size={20} className="mr-2" /> Yemek Ara
                         </Button>
                     </FoodSearchModal>
 
                     <ManualFoodAddModal onAdd={handleAddFood}>
                         <Button variant="outline" className="w-full h-14 border-dashed rounded-2xl border-2 bg-emerald-50 text-emerald-600 border-emerald-200 hover:bg-emerald-100 dark:bg-emerald-950/30 dark:border-emerald-900/50 dark:text-emerald-500 hover:text-emerald-700 dark:hover:text-emerald-400">
-                            <Plus className="mr-2 size-5" /> Kendi Yemeğini Ekle
+                            <IconPlate size={20} className="mr-2" /> Kendi Yemeğini Ekle
                         </Button>
                     </ManualFoodAddModal>
                 </div>
@@ -249,12 +254,22 @@ export default function ScanResult() {
                         </motion.div>
                     </div>
 
-                    <div className="flex gap-4 text-xs font-mono font-medium text-right">
-                        <div className="flex flex-col"><span className="text-blue-400">P</span> {Math.round(totals.protein)}g</div>
-                        <div className="flex flex-col"><span className="text-amber-400">K</span> {Math.round(totals.carbs)}g</div>
-                        <div className="flex flex-col"><span className="text-rose-400">Y</span> {Math.round(totals.fat)}g</div>
+                    <div className="flex gap-4 text-xs font-mono font-medium text-right mb-1">
+                        <div className="flex flex-col items-center">
+                            <IconLeaf size={16} className="text-blue-400 mb-1" />
+                            {Math.round(totals.protein)}g
+                        </div>
+                        <div className="flex flex-col items-center">
+                            <IconPlate size={16} className="text-amber-400 mb-1" />
+                            {Math.round(totals.carbs)}g
+                        </div>
+                        <div className="flex flex-col items-center">
+                            <IconFlame size={16} className="text-rose-400 mb-1" />
+                            {Math.round(totals.fat)}g
+                        </div>
                     </div>
                 </div>
+
 
                 {/* Meal Selector & Actions */}
                 <div className="flex gap-3 mb-4 overflow-x-auto hide-scrollbar pb-2">
