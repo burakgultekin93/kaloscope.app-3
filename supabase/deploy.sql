@@ -102,6 +102,7 @@ CREATE TABLE public.food_items (
 
 ALTER TABLE public.food_items ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "anyone_read_foods" ON food_items FOR SELECT USING (true);
+CREATE POLICY "authenticated_insert_foods" ON food_items FOR INSERT WITH CHECK (auth.role() = 'authenticated');
 
 -- Subscriptions
 CREATE TABLE public.subscriptions (

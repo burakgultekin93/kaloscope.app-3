@@ -81,9 +81,30 @@ export default function ScanResult() {
                 logged_date: new Date().toISOString().split('T')[0] // Use current date for 'logged_date' type DATE
             }));
 
-            const { error } = await supabase.from('meals').insert(mealDataRows);
+            const mealRowsResult = await supabase.from('meals').insert(mealDataRows);
 
-            if (error) throw error;
+            if (mealRowsResult.error) throw mealRowsResult.error;
+
+            // Also save any newly discovered AI items to the global dictionary
+            const newDictionaryItems = foods
+                .filter(food => !food.id.startsWith('manual-')) // Don't re-insert DB discoveries
+                .map(food => ({
+                    name_tr: food.name_tr,
+                    name_en: food.name_en,
+                    calories_per_100g: food.calories_per_100g,
+                    protein_per_100g: food.protein_per_100g,
+                    carbs_per_100g: food.carbs_per_100g,
+                    fat_per_100g: food.fat_per_100g,
+                    fiber_per_100g: food.fiber_per_100g || 0,
+                    common_portion_grams: food.estimated_grams,
+                    category: 'ai_discovery',
+                    is_turkish: true
+                }));
+
+            if (newDictionaryItems.length > 0) {
+                // Silently attempt to extend the dictionary
+                await supabase.from('food_items').insert(newDictionaryItems);
+            }
 
             toast.success('Öğün başarıyla günlüğe eklendi!');
             navigate('/app');
