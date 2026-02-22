@@ -15,7 +15,6 @@ import { Sparkles, ChefHat } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import type { UserProfile } from '@/types/profile';
 
 export default function Dashboard() {
     const { profile } = useProfile();
