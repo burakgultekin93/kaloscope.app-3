@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button';
 import { useProfile } from '@/hooks/useProfile';
 import { supabase } from '@/lib/supabase';
 import type { DietPlan } from '@/components/diet/DietPlanCard';
-import { AchievementBadge, type AchievementBadgeProps } from '@/components/gamification/AchievementBadge';
 import { toast } from 'sonner';
 
 export default function DietDetail() {

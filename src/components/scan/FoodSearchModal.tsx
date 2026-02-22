@@ -86,6 +86,7 @@ export const FoodSearchModal = ({ onAdd, children }: FoodSearchModalProps) => {
             protein_total: Number(((Number(item.protein_per_100g) * (item.common_portion_grams || 100)) / 100).toFixed(1)),
             carbs_total: Number(((Number(item.carbs_per_100g) * (item.common_portion_grams || 100)) / 100).toFixed(1)),
             fat_total: Number(((Number(item.fat_per_100g) * (item.common_portion_grams || 100)) / 100).toFixed(1)),
+            fiber_total: (Number(item.fiber_per_100g || 0) * (item.common_portion_grams || 100)) / 100,
         };
 
         onAdd(newFood);
@@ -116,6 +117,7 @@ export const FoodSearchModal = ({ onAdd, children }: FoodSearchModalProps) => {
                     protein_total: Number(((aiItem.protein_per_100g * aiItem.estimated_grams) / 100).toFixed(1)),
                     carbs_total: Number(((aiItem.carbs_per_100g * aiItem.estimated_grams) / 100).toFixed(1)),
                     fat_total: Number(((aiItem.fat_per_100g * aiItem.estimated_grams) / 100).toFixed(1)),
+                    fiber_total: (aiItem.fiber_per_100g * aiItem.estimated_grams) / 100,
                 };
                 onAdd(newFood);
                 setOpen(false);

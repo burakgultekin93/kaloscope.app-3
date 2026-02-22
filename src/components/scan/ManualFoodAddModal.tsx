@@ -44,6 +44,7 @@ export const ManualFoodAddModal = ({ onAdd, children }: ManualFoodAddModalProps)
             protein_total: p,
             carbs_total: c,
             fat_total: f,
+            fiber_total: 0,
             calories_per_100g: Math.round(cal * multiplier),
             protein_per_100g: Number((p * multiplier).toFixed(1)),
             carbs_per_100g: Number((c * multiplier).toFixed(1)),

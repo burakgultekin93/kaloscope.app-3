@@ -28,6 +28,7 @@ export const getBarcodeProduct = async (barcode: string): Promise<DetectedFood |
             protein_total: Math.round(nutriments.proteins_100g || 0),
             carbs_total: Math.round(nutriments.carbohydrates_100g || 0),
             fat_total: Math.round(nutriments.fat_100g || 0),
+            fiber_total: product.nutriments?.['fiber_100g'] ?? 0,
         };
     } catch (error) {
         console.error('OpenFoodFacts API Error:', error);

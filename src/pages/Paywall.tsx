@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { CheckCircle2, Crown, ArrowLeft, Lock, ShieldCheck, Loader2 } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import type { DietPlan } from '@/components/diet/DietPlanCard';
+import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/brand';
 import { toast } from 'sonner';
 import { useTranslation } from '@/hooks/useTranslation';
