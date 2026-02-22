@@ -228,6 +228,11 @@ export default function Landing() {
                         {t('footer_desc')}
                     </p>
                 </div>
+                <div className="flex flex-wrap justify-center gap-6 mb-12 text-sm font-bold text-zinc-500 uppercase tracking-widest">
+                    <Link to="/privacy" className="hover:text-emerald-500 transition-colors">{t('privacy_policy')}</Link>
+                    <Link to="/terms" className="hover:text-emerald-500 transition-colors">{t('terms_of_service')}</Link>
+                    <a href="mailto:info@kaloscope.app" className="hover:text-emerald-500 transition-colors">{t('contact_support') || 'İletişim'}</a>
+                </div>
                 <div className="text-sm font-bold text-zinc-400 uppercase tracking-widest">
                     &copy; {new Date().getFullYear()} KaloScope. {t('footer_rights')}
                 </div>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CheckCircle2, Crown, ArrowLeft, Lock, ShieldCheck, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -17,7 +17,16 @@ export default function Paywall() {
     const { user } = useAuth();
     const [step, setStep] = useState<'plans' | 'checkout'>(location.state?.fromOnboarding ? 'checkout' : 'plans');
     const [loading, setLoading] = useState(false);
-    const [gateway, setGateway] = useState<'iyzico' | 'stripe'>(t('lang') === 'tr' ? 'iyzico' : 'stripe');
+    const [gateway] = useState<'paddle'>('paddle');
+
+    useEffect(() => {
+        // @ts-ignore
+        if (window.Paddle) {
+            // @ts-ignore
+            window.Paddle.Setup({ vendor: 12345 }); // Replace with actual vendor ID if required for legacy, 
+            // but for v3 usually we just use the token in headers or initialization.
+        }
+    }, []);
 
     const handleSubscribe = async () => {
         if (!user) {
@@ -32,12 +41,21 @@ export default function Paywall() {
 
             if (error) throw error;
 
-            if (data?.url) {
-                window.location.href = data.url;
+            if (data?.checkout_id) {
+                // @ts-ignore
+                window.Paddle.Checkout.open({
+                    transactionId: data.checkout_id,
+                    successCallback: (data: any) => {
+                        console.log('Paddle Success:', data);
+                        toast.success('Ödeme başarılı! KaloScope Pro aktif edildi.');
+                        navigate('/app');
+                    },
+                    closeCallback: () => {
+                        setLoading(false);
+                    }
+                });
             } else {
-                // Local checkout simulation if no URL (e.g., Sandbox success)
-                toast.success('Ödeme başarılı! KaloScope Pro aktif edildi.');
-                navigate('/app');
+                toast.error('Ödeme başlatılamadı: Geçersiz işlem kimliği.');
             }
         } catch (error: any) {
             console.error('Payment Error:', error);
@@ -124,32 +142,12 @@ export default function Paywall() {
             </div>
 
             <div className="space-y-6">
-                <div className="space-y-4">
-                    <Label className="text-zinc-400 font-bold uppercase tracking-widest text-[10px]">{t('paywall_gateway_select') || 'Ödeme Yöntemi Seçin'}</Label>
-                    <div className="grid grid-cols-2 gap-3">
-                        <div
-                            onClick={() => setGateway('iyzico')}
-                            className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${gateway === 'iyzico' ? 'border-emerald-500 bg-emerald-500/5' : 'border-zinc-800 bg-zinc-900/50'}`}
-                        >
-                            <span className="font-bold text-sm">Iyzico</span>
-                            <p className="text-[10px] text-zinc-500 font-bold uppercase mt-1">Türkiye Özel</p>
-                        </div>
-                        <div
-                            onClick={() => setGateway('stripe')}
-                            className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${gateway === 'stripe' ? 'border-emerald-500 bg-emerald-500/5' : 'border-zinc-800 bg-zinc-900/50'}`}
-                        >
-                            <span className="font-bold text-sm">Stripe</span>
-                            <p className="text-[10px] text-zinc-500 font-bold uppercase mt-1">Global</p>
-                        </div>
-                    </div>
-                </div>
-
                 <div className="bg-emerald-500/5 border border-emerald-500/10 p-5 rounded-3xl mt-6">
                     <div className="flex justify-between items-center mb-1">
                         <span className="text-sm font-bold text-zinc-400">{t('paywall_summary_pay')}</span>
                         <span className="text-lg font-black text-white">₺399<span className="text-xs text-zinc-500">.99</span></span>
                     </div>
-                    <p className="text-[10px] text-zinc-500 font-medium">{t('paywall_summary_note')} {t('İstediğin an ayarlar kısmından iptal edebilirsin.')}</p>
+                    <p className="text-[10px] text-zinc-500 font-medium">{t('paywall_summary_note')} {t('paddle_billing_note') || 'Ödeme işlemleriniz Paddle.com tarafından güvenli bir şekilde gerçekleştirilir.'}</p>
                 </div>
 
                 <Button

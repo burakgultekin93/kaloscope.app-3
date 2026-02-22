@@ -87,7 +87,6 @@ const translations: Translations = {
     'paywall_button_start': { tr: 'Üyeliği Başlat', en: 'Start Subscription' },
     'paywall_gateway_select': { tr: 'Ödeme Yöntemi Seçin', en: 'Select Payment Method' },
     'view_all_plans': { tr: 'Tüm planları gör', en: 'View all plans' },
-    'protection': { tr: 'Koruma', en: 'Protection' },
 
     // Usage Limits
     'limit_reached_pro': { tr: 'Günlük 25 tarama limitine ulaştınız. Yarın tekrar bekleriz!', en: 'Daily 25 scan limit reached. See you tomorrow!' },
@@ -179,6 +178,50 @@ const translations: Translations = {
     'diet_list_regenerate': { tr: 'Listeyi Yenile', en: 'Regenerate List' },
     'diet_list_smart_tip': { tr: 'Akıllı İpucu:', en: 'Smart Tip:' },
     'diet_list_loading': { tr: 'Size özel diyet listesi hazırlanıyor...', en: 'Preparing your custom diet plan...' },
+
+    // Gamification
+    'achievements_title': { tr: 'Başarılar & Rozetler', en: 'Achievements & Badges' },
+    'streak_label': { tr: 'Günlük Seri', en: 'Daily Streak' },
+    'streak_unit': { tr: 'Gün', en: 'Day' },
+    'xp_label': { tr: 'Deneyim Puanı', en: 'Experience Points' },
+    'level_label': { tr: 'Seviye', en: 'Level' },
+    'next_level_label': { tr: 'Sonraki Seviye:', en: 'Next Level:' },
+    'max_level_label': { tr: 'Maksimum Seviye', en: 'Maximum Level' },
+    'how_to_earn_badges': { tr: 'Nasıl Rozet Kazanırım?', en: 'How to Earn Badges?' },
+    'badges_info_desc': { tr: 'Uygulamayı kullandıkça, yemeklerini tarattıkça ve diyetine sadık kaldıkça otomatik olarak rozet kazanırsın. Her rozet sana ekstra XP kazandırır!', en: 'Earn badges automatically as you use the app, scan meals, and stick to your diet. Each badge grants you extra XP!' },
+
+    // Diet System Pages
+    'diet_plans_title': { tr: 'Diyet Planları', en: 'Diet Plans' },
+    'diet_plans_search_placeholder': { tr: 'Diyet ara...', en: 'Search diet...' },
+    'diet_plans_not_found': { tr: 'Arama kriterlerine uygun diyet bulunamadı.', en: 'No diets found matching your search.' },
+    'diet_start_plan': { tr: 'Bu Plana Başla', en: 'Start This Plan' },
+    'diet_current_plan': { tr: 'Şu Anki Planınız', en: 'Your Current Plan' },
+    'diet_med_plan_warning': { tr: 'Medikal Plan', en: 'Medical Plan' },
+    'diet_difficulty_easy': { tr: 'Kolay', en: 'Easy' },
+    'diet_difficulty_moderate': { tr: 'Orta', en: 'Moderate' },
+    'diet_difficulty_hard': { tr: 'Zor', en: 'Hard' },
+    'diet_benefits': { tr: 'Faydaları', en: 'Benefits' },
+    'diet_recommended_foods': { tr: 'Önerilen Gıdalar', en: 'Recommended Foods' },
+    'diet_avoid_foods': { tr: 'Kaçınılması Gerekenler', en: 'Foods to Avoid' },
+    'diet_important_warnings': { tr: 'Önemli Uyarılar', en: 'Important Warnings' },
+    'diet_macro_target': { tr: 'Makro Hedefi', en: 'Macro Target' },
+    'diet_macro_pct': { tr: 'Kalori Yüzdesi', en: 'Calorie Percentage' },
+
+    // Dashboard Integration
+    'ai_coach_analysis': { tr: 'AI Koç Analizi', en: 'AI Coach Analysis' },
+    'ai_coach_suggestions': { tr: 'Öneriler', en: 'Suggestions' },
+    'diet_weekly_compliance': { tr: 'Haftalık Uyum', en: 'Weekly Compliance' },
+    'streak_consecutive': { tr: 'Seri', en: 'Streak' },
+    'last_earned_achievements': { tr: 'Son Başarılar', en: 'Recent Achievements' },
+    'view_all_badges': { tr: 'Tüm Rozetler', en: 'View All Badges' },
+
+    // Legal & Support
+    'privacy_policy': { tr: 'Gizlilik Politikası', en: 'Privacy Policy' },
+    'terms_of_service': { tr: 'Kullanım Koşulları', en: 'Terms of Service' },
+    'last_updated': { tr: 'Son Güncelleme', en: 'Last Updated' },
+    'paddle_billing_note': { tr: 'Ödeme işlemleriniz Paddle.com tarafından güvenli bir şekilde gerçekleştirilir.', en: 'Your payment is processed securely by Paddle.com.' },
+    'protection': { tr: 'Koruma', en: 'Protection' },
+    'contact_support': { tr: 'Destekle İletişime Geç', en: 'Contact Support' },
 };
 
 export const useTranslation = () => {

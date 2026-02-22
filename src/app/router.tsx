@@ -16,6 +16,11 @@ import VerifyEmail from '@/pages/VerifyEmail';
 import AuthCallback from '@/pages/AuthCallback';
 import GoalsSettings from '@/pages/GoalsSettings';
 import DietList from '@/pages/DietList';
+import DietPlans from '@/pages/DietPlans';
+import DietDetail from '@/pages/DietDetail';
+import Achievements from '@/pages/Achievements';
+import PrivacyPolicy from '@/pages/PrivacyPolicy';
+import TermsOfService from '@/pages/TermsOfService';
 
 export const router = createBrowserRouter([
     {
@@ -37,6 +42,14 @@ export const router = createBrowserRouter([
     {
         path: '/auth/callback',
         element: <AuthCallback />,
+    },
+    {
+        path: '/privacy',
+        element: <PrivacyPolicy />,
+    },
+    {
+        path: '/terms',
+        element: <TermsOfService />,
     },
     {
         path: '/onboarding',
@@ -85,6 +98,18 @@ export const router = createBrowserRouter([
             {
                 path: 'diet-list',
                 element: <DietList />,
+            },
+            {
+                path: 'diet-plans',
+                element: <DietPlans />,
+            },
+            {
+                path: 'diet-plans/:slug',
+                element: <DietDetail />,
+            },
+            {
+                path: 'achievements',
+                element: <Achievements />,
             },
         ],
     },

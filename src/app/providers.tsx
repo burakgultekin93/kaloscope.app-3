@@ -60,7 +60,9 @@ export function ThemeProvider({
     return (
         <ThemeProviderContext.Provider {...props} value={value}>
             <AuthProvider>
-                {children}
+                <ProfileProvider>
+                    {children}
+                </ProfileProvider>
             </AuthProvider>
         </ThemeProviderContext.Provider>
     )

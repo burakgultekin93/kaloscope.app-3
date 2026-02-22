@@ -14,10 +14,14 @@ export interface UserProfile extends UserProfileParams {
     is_pro: boolean;
     subscription_tier: 'free' | 'pro';
     subscription_end_date: string | null;
-    payment_gateway: 'stripe' | 'iyzico' | null;
+    payment_gateway: 'paddle' | null;
     external_customer_id: string | null;
 
     // Usage tracking
     daily_scans_count: number;
     last_scan_date: string;
+
+    // Gamification
+    xp: number;
+    level: number;
 }

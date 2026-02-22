@@ -8,15 +8,18 @@ import type { DetectedFood } from '@/types/food';
 import { useLocation } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/hooks/useAuth';
+import { useProfile } from '@/hooks/useProfile';
 import { FoodSearchModal } from '@/components/scan/FoodSearchModal';
 import { ManualFoodAddModal } from '@/components/scan/ManualFoodAddModal';
 import { toast } from 'sonner';
 import { IconPlate, IconScan, IconLeaf, IconFlame, IconSlider } from '@/components/brand';
+import { checkAchievements } from '@/lib/achievements';
 
 export default function ScanResult() {
     const navigate = useNavigate();
     const location = useLocation();
     const { user } = useAuth();
+    const { profile, refreshProfile } = useProfile();
     const [mealType, setMealType] = useState('ogle');
     const [isSaving, setIsSaving] = useState(false);
 
@@ -32,7 +35,7 @@ export default function ScanResult() {
     }, [location.state, navigate, foods.length, isManualMode]);
 
     const removeFood = (id: string) => {
-        setFoods(foods.filter(f => f.id !== id));
+        setFoods((prevFoods: DetectedFood[]) => prevFoods.filter((f: DetectedFood) => f.id !== id));
     };
 
     const handleAddFood = (food: DetectedFood) => {
@@ -43,7 +46,7 @@ export default function ScanResult() {
     const updateGrams = (id: string, grams: number) => {
         if (navigator.vibrate && grams % 50 === 0) navigator.vibrate(10);
 
-        setFoods(foods.map(f => {
+        setFoods((prevFoods: DetectedFood[]) => prevFoods.map((f: DetectedFood) => {
             if (f.id === id) {
                 const multiplier = grams / 100;
                 return {
@@ -68,7 +71,7 @@ export default function ScanResult() {
                 mealType === 'ogle' ? 'lunch' :
                     mealType === 'aksam' ? 'dinner' : 'snack';
 
-            const mealDataRows = foods.map(food => ({
+            const mealDataRows = foods.map((food: DetectedFood) => ({
                 user_id: user.id,
                 meal_type: mappedMealType,
                 food_name: food.name_tr,
@@ -89,8 +92,8 @@ export default function ScanResult() {
 
             // Also save any newly discovered AI items to the global dictionary
             const newDictionaryItems = foods
-                .filter(food => !food.id.startsWith('manual-')) // Don't re-insert DB discoveries
-                .map(food => ({
+                .filter((food: DetectedFood) => !food.id.startsWith('manual-')) // Don't re-insert DB discoveries
+                .map((food: DetectedFood) => ({
                     name_tr: food.name_tr,
                     name_en: food.name_en,
                     calories_per_100g: food.calories_per_100g,
@@ -108,9 +111,24 @@ export default function ScanResult() {
                 await supabase.from('food_items').insert(newDictionaryItems);
             }
 
-            toast.success('Öğün başarıyla günlüğe eklendi!');
+            // Award XP for logging a meal (10 XP per save)
+            if (profile) {
+                const currentXP = (profile as any).xp || 0;
+                await supabase
+                    .from('profiles')
+                    .update({ xp: currentXP + 10 })
+                    .eq('id', user.id);
+
+                // Check achievements
+                await checkAchievements(user.id, 'meal');
+
+                // Refresh global profile state
+                await refreshProfile();
+            }
+
+            toast.success('Öğün başarıyla günlüğe eklendi! (+10 XP)');
             navigate('/app/diary');
-        } catch (error) {
+        } catch (error: any) {
             console.error('Kayıt hatası:', error);
             toast.error('Öğün kaydedilirken bir hata oluştu');
         } finally {
@@ -119,7 +137,7 @@ export default function ScanResult() {
     };
 
     const totals = useMemo(() => {
-        return foods.reduce((acc, curr) => ({
+        return foods.reduce((acc: any, curr: DetectedFood) => ({
             calories: acc.calories + curr.calories_total,
             protein: acc.protein + curr.protein_total,
             carbs: acc.carbs + curr.carbs_total,
