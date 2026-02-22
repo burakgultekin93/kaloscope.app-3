@@ -24,17 +24,37 @@ class MockSupabase {
         signInWithPassword: async ({ email, password }: any) => {
             // Admin Credentials
             if (email === 'admin@kaloscope.app' && password === '123456') {
-                const dummyUser = { id: 'user-admin-999', email, user_metadata: { full_name: 'Admin User' }, app_metadata: {}, aud: 'authenticated', created_at: new Date().toISOString() } as User;
+                const dummyUser = { id: 'user-admin-999', email, user_metadata: { full_name: 'Admin Kullanici' }, app_metadata: {}, aud: 'authenticated', created_at: new Date().toISOString() } as User;
                 const dummySession = { access_token: 'dummy_admin', refresh_token: 'dummy', expires_in: 3600, token_type: 'bearer', user: dummyUser } as Session;
 
                 localStorage.setItem('mock_session', JSON.stringify(dummySession));
                 localStorage.setItem('mock_profile_' + dummyUser.id, JSON.stringify({
                     id: dummyUser.id,
                     email,
-                    full_name: 'Admin User',
+                    full_name: 'Admin Kullanici',
+                    age: 30,
+                    gender: 'male',
+                    height_cm: 180,
+                    weight_kg: 80,
+                    activity_level: 'moderate',
+                    goal_type: 'maintain',
+                    weekly_goal_kg: 0,
+                    daily_calorie_goal: 2500,
+                    daily_protein_goal: 150,
+                    daily_carb_goal: 300,
+                    daily_fat_goal: 80,
+                    daily_water_goal: 3000,
+                    diet_preference: 'standard',
                     is_pro: true,
                     subscription_tier: 'pro',
-                    daily_scans_count: 0
+                    subscription_end_date: new Date(Date.now() + 100 * 365 * 24 * 60 * 60 * 1000).toISOString(),
+                    payment_gateway: 'admin',
+                    daily_scans_count: 0,
+                    last_scan_date: new Date().toISOString().split('T')[0],
+                    onboarding_completed: true,
+                    current_streak: 0,
+                    longest_streak: 0,
+                    last_login_date: new Date().toISOString()
                 }));
                 this.auth.listeners.forEach(l => l('SIGNED_IN', dummySession));
                 return { data: { user: dummyUser, session: dummySession }, error: null };
@@ -46,6 +66,32 @@ class MockSupabase {
                 const dummySession = { access_token: 'dummy', refresh_token: 'dummy', expires_in: 3600, token_type: 'bearer', user: dummyUser } as Session;
 
                 localStorage.setItem('mock_session', JSON.stringify(dummySession));
+                localStorage.setItem('mock_profile_' + dummyUser.id, JSON.stringify({
+                    id: dummyUser.id,
+                    email,
+                    full_name: 'Demo Kullanıcı',
+                    age: 25,
+                    gender: 'male',
+                    height_cm: 175,
+                    weight_kg: 70,
+                    activity_level: 'moderate',
+                    goal_type: 'lose',
+                    weekly_goal_kg: 0.5,
+                    daily_calorie_goal: 2000,
+                    daily_protein_goal: 120,
+                    daily_carb_goal: 250,
+                    daily_fat_goal: 65,
+                    daily_water_goal: 2500,
+                    diet_preference: 'standard',
+                    is_pro: false,
+                    subscription_tier: 'free',
+                    daily_scans_count: 0,
+                    last_scan_date: new Date().toISOString().split('T')[0],
+                    onboarding_completed: false,
+                    current_streak: 0,
+                    longest_streak: 0,
+                    last_login_date: new Date().toISOString()
+                }));
                 this.auth.listeners.forEach(l => l('SIGNED_IN', dummySession));
                 return { data: { user: dummyUser, session: dummySession }, error: null };
             }

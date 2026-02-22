@@ -30,31 +30,46 @@ export default function Profile() {
                     <div className="size-20 bg-white/20 rounded-full flex items-center justify-center border-2 border-white/40 shadow-inner">
                         <Logo size={50} variant="white" />
                     </div>
-                    <div>
-                        <h2 className="text-xl font-bold">{user?.user_metadata?.full_name || t('profile_user')}</h2>
+                    <div className="flex-1">
+                        <div className="flex items-center gap-2">
+                            <h2 className="text-xl font-bold">{user?.user_metadata?.full_name || t('profile_user')}</h2>
+                            {user?.email === 'admin@kaloscope.app' && (
+                                <span className="bg-amber-500 text-white text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider">Admin</span>
+                            )}
+                            {profile?.is_pro && user?.email !== 'admin@kaloscope.app' && (
+                                <Crown className="size-4 text-amber-300" />
+                            )}
+                        </div>
                         <p className="text-emerald-100/80 text-sm font-medium">{user?.email}</p>
+                        {profile?.is_pro && (
+                            <p className="text-emerald-200/60 text-xs font-bold mt-1">
+                                {profile.subscription_tier === 'pro' ? 'PRO Uye' : 'Ucretsiz'}
+                            </p>
+                        )}
                     </div>
                 </div>
             </div>
 
             <div className="px-4 py-6 space-y-6">
 
-                {/* Pro Banner */}
-                <div
-                    onClick={() => navigate('/app/paywall')}
-                    className="bg-gradient-to-r from-zinc-900 to-zinc-800 dark:from-zinc-800 dark:to-zinc-900 p-5 rounded-3xl flex items-center justify-between text-white cursor-pointer hover:shadow-lg transition-all border border-zinc-700 shadow-xl shadow-zinc-900/10"
-                >
-                    <div className="flex items-center gap-4">
-                        <div className="size-10 bg-amber-500/20 text-amber-500 rounded-full flex items-center justify-center">
-                            <Crown className="size-5" />
+                {/* Pro Banner - Hidden for Pro users and Admin */}
+                {!profile?.is_pro && (
+                    <div
+                        onClick={() => navigate('/app/paywall')}
+                        className="bg-gradient-to-r from-zinc-900 to-zinc-800 dark:from-zinc-800 dark:to-zinc-900 p-5 rounded-3xl flex items-center justify-between text-white cursor-pointer hover:shadow-lg transition-all border border-zinc-700 shadow-xl shadow-zinc-900/10"
+                    >
+                        <div className="flex items-center gap-4">
+                            <div className="size-10 bg-amber-500/20 text-amber-500 rounded-full flex items-center justify-center">
+                                <Crown className="size-5" />
+                            </div>
+                            <div>
+                                <h3 className="font-bold text-lg leading-tight">{t('profile_pro_cta')}</h3>
+                                <p className="text-zinc-400 text-xs">{t('profile_pro_desc')}</p>
+                            </div>
                         </div>
-                        <div>
-                            <h3 className="font-bold text-lg leading-tight">{t('profile_pro_cta')}</h3>
-                            <p className="text-zinc-400 text-xs">{t('profile_pro_desc')}</p>
-                        </div>
+                        <ChevronRight className="text-zinc-500" />
                     </div>
-                    <ChevronRight className="text-zinc-500" />
-                </div>
+                )}
 
                 {/* Settings List */}
                 <section className="bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-200 dark:border-zinc-800 overflow-hidden shadow-sm">

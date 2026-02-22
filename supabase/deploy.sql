@@ -9,6 +9,7 @@ CREATE TABLE public.profiles (
   height_cm NUMERIC,
   weight_kg NUMERIC,
   birth_date DATE,
+  age INTEGER,
   gender TEXT CHECK (gender IN ('male','female','other')),
   activity_level TEXT DEFAULT 'moderate'
     CHECK (activity_level IN ('sedentary','light','moderate','active','very_active')),
@@ -20,6 +21,18 @@ CREATE TABLE public.profiles (
   daily_carb_goal INTEGER DEFAULT 250,
   daily_fat_goal INTEGER DEFAULT 65,
   daily_water_goal INTEGER DEFAULT 2500,
+  diet_preference TEXT DEFAULT 'standard'
+    CHECK (diet_preference IN ('standard', 'ketogenic', 'vegan', 'vegetarian', 'diabetic', 'high_protein', 'mediterranean')),
+  current_streak INTEGER DEFAULT 0,
+  longest_streak INTEGER DEFAULT 0,
+  last_login_date TIMESTAMPTZ,
+  is_pro BOOLEAN DEFAULT false,
+  subscription_tier TEXT DEFAULT 'free',
+  subscription_end_date TIMESTAMPTZ,
+  payment_gateway TEXT,
+  external_customer_id TEXT,
+  daily_scans_count INTEGER DEFAULT 0,
+  last_scan_date DATE DEFAULT CURRENT_DATE,
   onboarding_completed BOOLEAN DEFAULT false,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
@@ -123,25 +136,35 @@ CREATE POLICY "own_sub" ON subscriptions FOR SELECT USING (auth.uid() = user_id)
 
 -- Fuzzy search extension
 CREATE EXTENSION IF NOT EXISTS pg_trgm;
--- Migration 002: Add Diet Preference to Profiles
+-- Indexes for performance
+CREATE INDEX IF NOT EXISTS idx_profiles_is_pro ON public.profiles(is_pro);
+CREATE INDEX IF NOT EXISTS idx_profiles_last_login ON public.profiles(last_login_date);
 
--- Add diet_preference column with default 'standard'
-ALTER TABLE public.profiles
-ADD COLUMN IF NOT EXISTS diet_preference text DEFAULT 'standard'::text;
+-- Function to check and reset scans if the date has changed
+CREATE OR REPLACE FUNCTION increment_scan_count(user_id_param UUID)
+RETURNS INT AS $$
+DECLARE
+    current_count INT;
+    last_date DATE;
+BEGIN
+    SELECT daily_scans_count, last_scan_date INTO current_count, last_date
+    FROM public.profiles
+    WHERE id = user_id_param;
 
--- Optional: Add a check constraint to ensure only valid diets are used
-ALTER TABLE public.profiles
-ADD CONSTRAINT valid_diet_preference 
-CHECK (diet_preference IN ('standard', 'ketogenic', 'vegan', 'vegetarian', 'diabetic', 'high_protein', 'mediterranean'));
--- Migration: Add streak and gamification fields to profiles table
--- Up
-ALTER TABLE profiles 
-ADD COLUMN IF NOT EXISTS current_streak integer DEFAULT 0,
-ADD COLUMN IF NOT EXISTS longest_streak integer DEFAULT 0,
-ADD COLUMN IF NOT EXISTS last_login_date timestamp with time zone;
-
--- Optional: Create an index on last_login_date if we need to query active users frequently
--- CREATE INDEX IF NOT EXISTS idx_profiles_last_login ON profiles(last_login_date);
+    IF last_date < CURRENT_DATE THEN
+        UPDATE public.profiles
+        SET daily_scans_count = 1,
+            last_scan_date = CURRENT_DATE
+        WHERE id = user_id_param;
+        RETURN 1;
+    ELSE
+        UPDATE public.profiles
+        SET daily_scans_count = current_count + 1
+        WHERE id = user_id_param;
+        RETURN current_count + 1;
+    END IF;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
 
 -- Health Logs
 CREATE TABLE public.health_logs (
