@@ -45,8 +45,8 @@ export default function Achievements() {
                 if (earnedErr) throw earnedErr;
 
                 // Birleştir
-                const mapped = allAchievements.map(a => {
-                    const earned = earnedAchievements?.find(e => e.achievement_id === a.id);
+                const mapped = allAchievements.map((a: any) => {
+                    const earned = earnedAchievements?.find((e: any) => e.achievement_id === a.id);
                     return {
                         ...a,
                         earned_at: earned?.earned_at

@@ -20,6 +20,7 @@ import { XPBar } from '@/components/gamification/XPBar';
 import { StreakCounter } from '@/components/gamification/StreakCounter';
 import { DietComplianceBanner } from '@/components/diet/DietComplianceBanner';
 import { AICoachCard } from '@/components/diet/AICoachCard';
+import { openai } from '@/lib/openai';
 import { getDailyAIFeedback } from '@/lib/aiCoach';
 import type { DailyData, AICoachData } from '@/lib/aiCoach';
 
@@ -148,8 +149,9 @@ export default function Dashboard() {
                             data={aiCoachData || {
                                 mood: 'neutral',
                                 feedback_tr: 'Bugün henüz öğün loglamadınız. Yeni bir öğün ekleyerek AI analizinizi alabilirsiniz.',
-                                suggestions_tr: ['Öğle yemeği için protein ağırlıklı seçim yapabilirsiniz'],
-                                compliance_score: 0
+                                suggestions_tr: [],
+                                compliance_score: 0,
+                                macro_balance_score: 0
                             }}
                             isLoading={loadingAI}
                         />

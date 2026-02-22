@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
-import { ArrowLeft, ShieldCheck, Lock, Globe } from 'lucide-react';
+import { ArrowLeft, ShieldCheck, Lock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from '@/hooks/useTranslation';
-import { Button } from '@/components/ui/button';
+
 
 export default function PrivacyPolicy() {
     const navigate = useNavigate();

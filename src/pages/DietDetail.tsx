@@ -21,7 +21,7 @@ export default function DietDetail() {
     useEffect(() => {
         if (!plan && slug) {
             const fetchPlan = async () => {
-                const { data, error } = await supabase
+                const { data } = await supabase
                     .from('diet_plans')
                     .select('*')
                     .eq('slug', slug)

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ArrowLeft, FileText, AlertTriangle, Calendar } from 'lucide-react';
+import { ArrowLeft, FileText, AlertTriangle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from '@/hooks/useTranslation';
 

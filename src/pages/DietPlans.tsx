@@ -8,7 +8,7 @@ import { useTranslation } from '@/hooks/useTranslation';
 
 export default function DietPlans() {
     const navigate = useNavigate();
-    const { t } = useTranslation(); // t is used in DietPlanCard or can be used here later
+    const { t: _t } = useTranslation();
     const [plans, setPlans] = useState<DietPlan[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
