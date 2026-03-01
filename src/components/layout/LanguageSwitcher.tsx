@@ -1,6 +1,4 @@
 import { useLanguage } from '@/providers/LanguageContext';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Globe } from 'lucide-react';
 
 export const LanguageSwitcher = () => {
     const { lang, setLang } = useLanguage();
@@ -10,8 +8,8 @@ export const LanguageSwitcher = () => {
             <button
                 onClick={() => setLang('tr')}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${lang === 'tr'
-                        ? 'bg-white dark:bg-zinc-700 text-emerald-600 dark:text-emerald-400 shadow-sm'
-                        : 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300'
+                    ? 'bg-white dark:bg-zinc-700 text-emerald-600 dark:text-emerald-400 shadow-sm'
+                    : 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300'
                     }`}
             >
                 TR
@@ -19,8 +17,8 @@ export const LanguageSwitcher = () => {
             <button
                 onClick={() => setLang('en')}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${lang === 'en'
-                        ? 'bg-white dark:bg-zinc-700 text-emerald-600 dark:text-emerald-400 shadow-sm'
-                        : 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300'
+                    ? 'bg-white dark:bg-zinc-700 text-emerald-600 dark:text-emerald-400 shadow-sm'
+                    : 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300'
                     }`}
             >
                 EN

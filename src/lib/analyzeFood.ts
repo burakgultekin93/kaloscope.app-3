@@ -1,12 +1,13 @@
 import { openai } from './openai';
+import { gemini } from './gemini';
 import { SYSTEM_PROMPT_TURKISH_FOOD } from './aiPrompts';
 import { parseAIResponse } from '@/utils/parseAIResponse';
 import type { AnalysisResult } from '@/types/food';
 
 export const analyzeFoodImage = async (base64Image: string): Promise<AnalysisResult> => {
-    try {
-        const response = await openai.chat.completions.create({
-            model: "gpt-4o",
+    const makeRequest = async (model: string) => {
+        return await openai.chat.completions.create({
+            model: model,
             response_format: { type: "json_object" },
             max_tokens: 1500,
             temperature: 0.1,
@@ -30,42 +31,46 @@ export const analyzeFoodImage = async (base64Image: string): Promise<AnalysisRes
                 }
             ]
         });
+    };
 
+    try {
+        const response = await makeRequest("gpt-4o");
         const content = response.choices[0]?.message?.content || null;
         return parseAIResponse(content);
-    } catch (error: unknown) {
-        console.error("AI Analysis Error:", error);
-        const err = error as any;
-        if (err?.status === 429 || err?.status === 401) {
-            throw new Error("Geçici bir servis sorunu var. Lütfen biraz bekleyip tekrar deneyin.");
+    } catch (error: any) {
+        console.warn("gpt-4o failed, trying fallback gpt-4o-mini...", error?.message);
+        try {
+            const fallbackResponse = await makeRequest("gpt-4o-mini");
+            const content = fallbackResponse.choices[0]?.message?.content || null;
+            return parseAIResponse(content);
+        } catch (fallbackError: any) {
+            console.error("AI Fallback Analysis Error:", fallbackError);
+            if (fallbackError?.status === 429 || fallbackError?.status === 401) {
+                throw new Error("Geçici bir servis sorunu var. Lütfen biraz bekleyip tekrar deneyin.");
+            }
+            throw new Error("Fotoğraf analiz edilemedi. Lütfen daha net bir fotoğraf çekin.");
         }
-        throw new Error("Fotoğraf analiz edilemedi. Lütfen daha net bir fotoğraf çekin.");
     }
 };
+
 
 export const analyzeFoodText = async (query: string): Promise<AnalysisResult> => {
     try {
-        const response = await openai.chat.completions.create({
-            model: "gpt-4o",
-            response_format: { type: "json_object" },
-            max_tokens: 1500,
-            temperature: 0.1,
-            messages: [
-                {
-                    role: "system",
-                    content: SYSTEM_PROMPT_TURKISH_FOOD
-                },
-                {
-                    role: "user",
-                    content: `Please analyze this food item: "${query}" and return the nutritional data as JSON.`
-                }
-            ]
+        const response = await gemini.models.generateContent({
+            model: 'gemini-2.5-flash',
+            contents: `Please analyze this food item: "${query}" and return the nutritional data as JSON.`,
+            config: {
+                systemInstruction: SYSTEM_PROMPT_TURKISH_FOOD,
+                responseMimeType: "application/json",
+                temperature: 0.1,
+            }
         });
 
-        const content = response.choices[0]?.message?.content || null;
+        const content = response.text || null;
         return parseAIResponse(content);
-    } catch (error: unknown) {
-        console.error("AI Text Analysis Error:", error);
+    } catch (error: any) {
+        console.error("Gemini AI Text Analysis Error:", error);
         throw new Error("Yemek bilgisi alınamadı. Lütfen tekrar deneyin.");
     }
 };
+

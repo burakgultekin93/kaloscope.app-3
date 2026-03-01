@@ -1,7 +1,5 @@
 import { useLanguage } from '../providers/LanguageContext';
 
-type Language = 'tr' | 'en';
-
 interface Translations {
     [key: string]: {
         tr: string;

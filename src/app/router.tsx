@@ -22,6 +22,7 @@ import Achievements from '@/pages/Achievements';
 import PrivacyPolicy from '@/pages/PrivacyPolicy';
 import TermsOfService from '@/pages/TermsOfService';
 import RefundPolicy from '@/pages/RefundPolicy';
+import DietPlan from '@/pages/DietPlan';
 
 export const router = createBrowserRouter([
     {
@@ -116,6 +117,11 @@ export const router = createBrowserRouter([
                 path: 'achievements',
                 element: <Achievements />,
             },
+            {
+                path: 'ai-diet',
+                element: <DietPlan />,
+            },
+
         ],
     },
 ]);

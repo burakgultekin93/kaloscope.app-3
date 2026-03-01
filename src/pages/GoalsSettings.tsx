@@ -132,7 +132,7 @@ export default function GoalsSettings() {
                             <Slider
                                 min={40} max={200} step={1}
                                 value={[formData.weight_kg]}
-                                onValueChange={(v) => setFormData({ ...formData, weight_kg: v[0] })}
+                                onValueChange={(v: number[]) => setFormData({ ...formData, weight_kg: v[0] })}
                             />
                         </div>
 
@@ -144,7 +144,7 @@ export default function GoalsSettings() {
                             <Slider
                                 min={120} max={220} step={1}
                                 value={[formData.height_cm]}
-                                onValueChange={(v) => setFormData({ ...formData, height_cm: v[0] })}
+                                onValueChange={(v: number[]) => setFormData({ ...formData, height_cm: v[0] })}
                             />
                         </div>
 
@@ -156,7 +156,7 @@ export default function GoalsSettings() {
                             <Slider
                                 min={15} max={100} step={1}
                                 value={[formData.age]}
-                                onValueChange={(v) => setFormData({ ...formData, age: v[0] })}
+                                onValueChange={(v: number[]) => setFormData({ ...formData, age: v[0] })}
                             />
                         </div>
                     </Card>
@@ -219,7 +219,7 @@ export default function GoalsSettings() {
                             <Slider
                                 min={0.1} max={1.5} step={0.1}
                                 value={[formData.weekly_goal_kg || 0.5]}
-                                onValueChange={(v) => setFormData({ ...formData, weekly_goal_kg: v[0] })}
+                                onValueChange={(v: number[]) => setFormData({ ...formData, weekly_goal_kg: v[0] })}
                             />
                             <p className="text-[10px] text-zinc-400 text-center font-medium">Sağlıklı limitiniz: 0.5 - 1.0 kg / hafta</p>
                         </div>
