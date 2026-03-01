@@ -10,14 +10,17 @@ import { BarcodeScanner } from '@/components/scan/BarcodeScanner';
 import { toast } from 'sonner';
 import { IconScan, Wordmark } from '@/components/brand';
 import { useUsageLimit } from '@/hooks/useUsageLimit';
+import { useTranslation } from '@/hooks/useTranslation';
 
 export default function Scan() {
     const [mode, setMode] = useState<'ai' | 'barcode'>('ai');
     const [analyzing, setAnalyzing] = useState(false);
-    const [loadingMsg, setLoadingMsg] = useState('Fotoğraf işleniyor...');
+    const { t, lang } = useTranslation();
     const fileInputRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
     const { checkLimit, incrementUsage, current, limit, remaining } = useUsageLimit();
+
+    const [loadingMsg, setLoadingMsg] = useState(t('scan_processing'));
 
     const handleCapture = () => {
         // In a real app we'd trigger a native camera or file input.
@@ -31,12 +34,12 @@ export default function Scan() {
         if (!checkLimit()) return;
 
         setAnalyzing(true);
-        setLoadingMsg('Görüntü optimize ediliyor...');
+        setLoadingMsg(t('scan_processing'));
 
         try {
             const base64Image = await optimizeImage(file);
 
-            setLoadingMsg('Yapay Zeka yemeğinizi inceliyor...');
+            setLoadingMsg(t('scan_analyzing'));
             const result = await analyzeFoodImage(base64Image);
 
             await incrementUsage();
@@ -105,21 +108,21 @@ export default function Scan() {
                                 onClick={() => setMode('ai')}
                                 className={`flex-1 py-2.5 px-4 rounded-xl text-sm font-bold transition-all ${mode === 'ai' ? 'bg-zinc-800 text-emerald-400 shadow-md transform scale-105 border border-zinc-700' : 'text-zinc-500 hover:text-zinc-300'}`}
                             >
-                                Yapay Zeka
+                                {lang === 'tr' ? 'Yapay Zeka' : 'AI Analysis'}
                             </button>
                             <button
                                 onClick={() => setMode('barcode')}
                                 className={`flex-1 py-2.5 px-4 rounded-xl text-sm font-bold transition-all ${mode === 'barcode' ? 'bg-zinc-800 text-emerald-400 shadow-md transform scale-105 border border-zinc-700' : 'text-zinc-500 hover:text-zinc-300'}`}
                             >
-                                Barkod
+                                {lang === 'tr' ? 'Barkod' : 'Barcode'}
                             </button>
                         </div>
 
                         {mode === 'ai' ? (
                             <>
                                 <div className="text-center">
-                                    <h1 className="text-3xl font-bold mb-2">Tabağını Tarat</h1>
-                                    <p className="text-zinc-400">Kalorisini öğrenmek için fotoğraf çek veya galeriden seç.</p>
+                                    <h1 className="text-3xl font-bold mb-2">{lang === 'tr' ? 'Tabağını Tarat' : 'Scan Your Plate'}</h1>
+                                    <p className="text-zinc-400">{lang === 'tr' ? 'Kalorisini öğrenmek için fotoğraf çek veya galeriden seç.' : 'Take a photo or choose from gallery to see calories.'}</p>
                                 </div>
 
                                 <div
@@ -127,12 +130,12 @@ export default function Scan() {
                                     onClick={handleCapture}
                                 >
                                     <IconScan size={80} color="#10b981" className="group-hover:scale-110 transition-transform duration-500" />
-                                    <span className="font-semibold text-zinc-300 text-lg">Fotoğraf Çek</span>
+                                    <span className="font-semibold text-zinc-300 text-lg">{lang === 'tr' ? 'Fotoğraf Çek' : 'Take a Photo'}</span>
                                 </div>
 
                                 <div className="flex items-center gap-4 w-full">
                                     <div className="h-px bg-zinc-800 flex-1" />
-                                    <span className="text-zinc-500 text-sm font-medium">veya</span>
+                                    <span className="text-zinc-500 text-sm font-medium">{lang === 'tr' ? 'veya' : 'or'}</span>
                                     <div className="h-px bg-zinc-800 flex-1" />
                                 </div>
 
@@ -142,7 +145,7 @@ export default function Scan() {
                                     className="w-full h-14 rounded-2xl border-zinc-700 bg-zinc-800 hover:bg-zinc-700 text-white"
                                     onClick={() => fileInputRef.current?.click()}
                                 >
-                                    <ImageIcon className="mr-2 size-5 text-emerald-400" /> Galeriden Seç
+                                    <ImageIcon className="mr-2 size-5 text-emerald-400" /> {lang === 'tr' ? 'Galeriden Seç' : 'Choose from Gallery'}
                                 </Button>
 
                                 <Button
@@ -151,7 +154,7 @@ export default function Scan() {
                                     className="w-full h-14 rounded-2xl border-emerald-900/50 bg-emerald-950/30 hover:bg-emerald-900/50 text-emerald-500"
                                     onClick={() => navigate('/app/scan-result', { state: { result: { foods: [] }, isManual: true } })}
                                 >
-                                    <Search className="mr-2 size-5" /> Manuel Arama & Ekleme
+                                    <Search className="mr-2 size-5" /> {lang === 'tr' ? 'Manuel Arama & Ekleme' : 'Manual Search & Entry'}
                                 </Button>
 
 

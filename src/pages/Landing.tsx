@@ -5,9 +5,10 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Logo, IconSlider, IconMic, IconStats, IconStreak, IconPlate } from '@/components/brand';
 import { useTranslation } from '@/hooks/useTranslation';
+import { LanguageSwitcher } from '@/components/layout/LanguageSwitcher';
 
 export default function Landing() {
-    const { t } = useTranslation();
+    const { t, lang } = useTranslation();
 
     const features = [
         { icon: <Logo size={24} variant="light" />, title: t('feat_1_title'), desc: t('feat_1_desc') },
@@ -29,6 +30,7 @@ export default function Landing() {
                         <span className="font-bold text-2xl tracking-tight hidden sm:block">KaloScope</span>
                     </div>
                     <div className="flex items-center gap-4">
+                        <LanguageSwitcher />
                         <Link to="/login" className="text-sm font-semibold hover:text-emerald-500 transition-colors">
                             {t('nav_login')}
                         </Link>
@@ -197,7 +199,9 @@ export default function Landing() {
                             </div>
                             <CardContent className="p-10 text-center">
                                 <h3 className="text-2xl font-bold mb-4 text-emerald-400 uppercase tracking-widest">Pro</h3>
-                                <div className="text-5xl font-black mb-4 tracking-tighter">{t('plan_pro_price')}</div>
+                                <div className="text-5xl font-black mb-4 tracking-tighter">
+                                    {lang === 'tr' ? t('plan_pro_price_tr') : t('plan_pro_price_en')}
+                                </div>
                                 <p className="text-sm font-bold text-emerald-500/80 mb-10 bg-emerald-500/10 inline-block px-4 py-1 rounded-full uppercase tracking-widest">{t('plan_pro_promo')}</p>
                                 <ul className="space-y-6 mb-12 text-left">
                                     <li className="flex items-center gap-4 font-medium"><CheckCircle2 className="size-6 text-emerald-500" /> {t('plan_pro_feat_1')}</li>
@@ -227,12 +231,27 @@ export default function Landing() {
                     <p className="max-w-md mx-auto text-xl font-medium text-zinc-500">
                         {t('footer_desc')}
                     </p>
+                    <div className="text-zinc-500 text-sm space-y-1 font-medium italic">
+                        <p>{t('footer_provider')}</p>
+                        <p>{t('footer_address')}</p>
+                        <p className="not-italic font-bold text-emerald-600 dark:text-emerald-400">support@kaloscope.app</p>
+                    </div>
                 </div>
                 <div className="flex flex-wrap justify-center gap-6 mb-12 text-sm font-bold text-zinc-500 uppercase tracking-widest">
                     <Link to="/privacy" className="hover:text-emerald-500 transition-colors">{t('privacy_policy')}</Link>
                     <Link to="/terms" className="hover:text-emerald-500 transition-colors">{t('terms_of_service')}</Link>
-                    <a href="mailto:info@kaloscope.app" className="hover:text-emerald-500 transition-colors">{t('contact_support') || 'İletişim'}</a>
+                    <Link to="/refund" className="hover:text-emerald-500 transition-colors">{t('refund_policy')}</Link>
                 </div>
+
+                <div className="flex flex-col items-center gap-4 mb-8">
+                    <div className="flex items-center gap-4 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" className="h-4" />
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" className="h-6" />
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" className="h-5" />
+                    </div>
+                    <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-[0.2em]">{t('footer_paddle_note')}</p>
+                </div>
+
                 <div className="text-sm font-bold text-zinc-400 uppercase tracking-widest">
                     &copy; {new Date().getFullYear()} KaloScope. {t('footer_rights')}
                 </div>

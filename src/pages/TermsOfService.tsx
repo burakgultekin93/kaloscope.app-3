@@ -60,10 +60,10 @@ export default function TermsOfService() {
 
                             <section>
                                 <h3 className="text-white font-black text-xl mb-4">3. Ödemeler ve Abonelik</h3>
-                                <p>Ödeme işlemlerimiz online bayimiz Paddle.com tarafından yürütülür. Paddle, tüm siparişler için "Kayıtlı Satıcı"dır (Merchant of Record).</p>
+                                <p>Hizmet Sağlayıcı: <strong>Burak Gültekin</strong> (Sole Trader). Ödeme işlemlerimiz online bayimiz Paddle.com tarafından yürütülür. Paddle, tüm siparişler için "Kayıtlı Satıcı"dır (Merchant of Record).</p>
                                 <ul className="list-disc pl-5 space-y-2 mt-4">
                                     <li><strong>Abonelikler:</strong> Aylık veya yıllık olarak önceden faturalandırılır.</li>
-                                    <li><strong>İadeler:</strong> Abonelikler için 7 günlük para iade garantisi sunuyoruz.</li>
+                                    <li><strong>İadeler:</strong> Dijital içeriklere erişim sağlandıktan sonra cayma hakkı kapsamında iade yapılmamaktadır. Detaylar için <a href="/refund" className="text-emerald-500 underline">İade Politikası</a> sayfamızı inceleyin.</li>
                                 </ul>
                             </section>
 
@@ -74,7 +74,8 @@ export default function TermsOfService() {
 
                             <section>
                                 <h3 className="text-white font-black text-xl mb-4">5. İletişim</h3>
-                                <p>Destek: <span className="text-emerald-500 font-bold">info@kaloscope.app</span></p>
+                                <p>Destek: <span className="text-emerald-500 font-bold">support@kaloscope.app</span></p>
+                                <p>Adres: Harbiye, Şişli, Istanbul, Turkey</p>
                             </section>
                         </div>
                     ) : (
@@ -91,10 +92,10 @@ export default function TermsOfService() {
 
                             <section>
                                 <h3 className="text-white font-black text-xl mb-4">3. Payments & Merchant of Record</h3>
-                                <p>Our order process is conducted by Paddle.com. Paddle is the Merchant of Record for all our orders.</p>
+                                <p>Service Provider: <strong>Burak Gültekin</strong> (Sole Trader). Our order process is conducted by Paddle.com. Paddle is the Merchant of Record for all our orders.</p>
                                 <ul className="list-disc pl-5 space-y-2 mt-4">
                                     <li><strong>Subscriptions:</strong> Billed in advance on a recurring basis.</li>
-                                    <li><strong>Refunds:</strong> 7-day money-back guarantee for subscriptions.</li>
+                                    <li><strong>Refunds:</strong> Digital services are non-refundable once accessed. For details, see our <a href="/refund" className="text-emerald-500 underline">Refund Policy</a>.</li>
                                 </ul>
                             </section>
 
@@ -105,7 +106,8 @@ export default function TermsOfService() {
 
                             <section>
                                 <h3 className="text-white font-black text-xl mb-4">5. Contact</h3>
-                                <p>Support: <span className="text-emerald-500 font-bold">info@kaloscope.app</span></p>
+                                <p>Support: <span className="text-emerald-500 font-bold">support@kaloscope.app</span></p>
+                                <p>Address: Harbiye, Şişli, Istanbul, Turkey</p>
                             </section>
                         </div>
                     )}

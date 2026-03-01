@@ -29,7 +29,7 @@ export const optimizeImage = async (file: File): Promise<string> => {
                 ctx?.drawImage(img, 0, 0, width, height);
 
                 // Return base64 without prefix
-                const dataUrl = canvas.toDataURL('image/jpeg', 0.75);
+                const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
                 resolve(dataUrl.split(',')[1]);
             };
             img.onerror = (error) => reject(error);

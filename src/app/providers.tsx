@@ -1,5 +1,6 @@
 import { AuthProvider } from '@/hooks/useAuth';
 import { ProfileProvider } from '../providers/ProfileProvider';
+import { LanguageProvider } from '../providers/LanguageContext';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
 type Theme = "dark" | "light" | "system"
@@ -60,11 +61,13 @@ export function ThemeProvider({
 
     return (
         <ThemeProviderContext.Provider {...props} value={value}>
-            <AuthProvider>
-                <ProfileProvider>
-                    {children}
-                </ProfileProvider>
-            </AuthProvider>
+            <LanguageProvider>
+                <AuthProvider>
+                    <ProfileProvider>
+                        {children}
+                    </ProfileProvider>
+                </AuthProvider>
+            </LanguageProvider>
         </ThemeProviderContext.Provider>
     )
 }

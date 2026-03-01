@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useLanguage } from '../providers/LanguageContext';
 
 type Language = 'tr' | 'en';
 
@@ -61,12 +61,15 @@ const translations: Translations = {
     'plan_free_feat_1': { tr: 'Günde 3 AI Tarama', en: '3 AI Scans per day' },
     'plan_free_cta': { tr: 'Hemen Başla', en: 'Get Started' },
 
-    'plan_pro_price': { tr: '₺149.99 / ay', en: '$14.99 / mo' },
+    'plan_pro_price_tr': { tr: '₺249.99 / ay', en: '₺249.99 / mo' },
+    'plan_pro_price_en': { tr: '$5.99 / mo', en: '$5.99 / mo' },
+    'plan_pro_price_annual_tr': { tr: '₺1499.99 / yıl', en: '₺1499.99 / yr' },
+    'plan_pro_price_annual_en': { tr: '$59.99 / year', en: '$59.99 / yr' },
     'plan_pro_promo': { tr: 'Yıllık planda %50 indirimli', en: '50% off with annual plan' },
     'plan_pro_feat_1': { tr: 'Sınırsız AI Tarama', en: 'Unlimited AI Scans' },
     'plan_pro_feat_2': { tr: 'Gelişmiş Makro Analizi', en: 'Advanced Macro Analysis' },
     'plan_pro_feat_3': { tr: 'AI Diyet Asistanı', en: 'AI Diet Assistant' },
-    'plan_pro_cta': { tr: '7 Gün Ücretsiz Dene', en: 'Start 7-Day Free Trial' },
+    'plan_pro_cta': { tr: 'Hemen Başla', en: 'Get Started' },
 
     // Paywall Detailed
     'paywall_title': { tr: 'KaloScope Limitlerini Kaldır', en: 'Remove KaloScope Limits' },
@@ -127,6 +130,9 @@ const translations: Translations = {
     // Footer
     'footer_desc': { tr: 'Dünya mutfağını anlayan akıllı beslenme asistanınız.', en: 'Your smart nutrition assistant who understands world cuisine.' },
     'footer_rights': { tr: 'Tüm hakları saklıdır.', en: 'All rights reserved.' },
+    'footer_provider': { tr: 'Hizmet Sağlayıcı: Burak Gültekin', en: 'Provider: Burak Gültekin' },
+    'footer_address': { tr: 'Harbiye, Şişli, İstanbul, Türkiye', en: 'Harbiye, Şisli, Istanbul, Turkey' },
+    'footer_paddle_note': { tr: 'Ödemeler Paddle tarafından güvenli bir şekilde işlenmektedir.', en: 'Payments processed by Paddle.' },
 
     // Profile & Settings
     'profile_title': { tr: 'Profilim', en: 'Profile' },
@@ -158,82 +164,19 @@ const translations: Translations = {
     'goals_success_toast': { tr: 'Hedeflerin başarıyla güncellendi!', en: 'Goals updated successfully!' },
     'goals_calc_result': { tr: 'Yeni Günlük Hedefin:', en: 'Your New Daily Goal:' },
 
-    'activity_sedentary_label': { tr: 'Hareketsiz', en: 'Sedentary' },
-    'activity_light_label': { tr: 'Hafif Aktif', en: 'Lightly Active' },
-    'activity_moderate_label': { tr: 'Orta Aktif', en: 'Moderately Active' },
-    'activity_active_label': { tr: 'Çok Aktif', en: 'Very Active' },
-    'activity_very_active_label': { tr: 'Ekstra Aktif', en: 'Extra Active' },
-
-    'goal_type_lose': { tr: 'Kilo Ver', en: 'Lose Weight' },
-    'goal_type_maintain': { tr: 'Kilomu Koru', en: 'Maintain Weight' },
-    'goal_type_gain': { tr: 'Kilo Al', en: 'Gain Weight' },
-
-    // Diet List
-    'diet_list_title': { tr: 'Günün Diyet Listesi', en: 'Daily Diet Plan' },
-    'diet_list_desc': { tr: 'Hedeflerine göre AI tarafından önerilen öğünler.', en: 'AI suggested meals based on your goals.' },
-    'diet_list_morning': { tr: 'Kahvaltı', en: 'Breakfast' },
-    'diet_list_afternoon': { tr: 'Öğle Yemeği', en: 'Lunch' },
-    'diet_list_evening': { tr: 'Akşam Yemeği', en: 'Dinner' },
-    'diet_list_snack': { tr: 'Atıştırmalık', en: 'Snack' },
-    'diet_list_regenerate': { tr: 'Listeyi Yenile', en: 'Regenerate List' },
-    'diet_list_smart_tip': { tr: 'Akıllı İpucu:', en: 'Smart Tip:' },
-    'diet_list_loading': { tr: 'Size özel diyet listesi hazırlanıyor...', en: 'Preparing your custom diet plan...' },
-
-    // Gamification
-    'achievements_title': { tr: 'Başarılar & Rozetler', en: 'Achievements & Badges' },
-    'streak_label': { tr: 'Günlük Seri', en: 'Daily Streak' },
-    'streak_unit': { tr: 'Gün', en: 'Day' },
-    'xp_label': { tr: 'Deneyim Puanı', en: 'Experience Points' },
-    'level_label': { tr: 'Seviye', en: 'Level' },
-    'next_level_label': { tr: 'Sonraki Seviye:', en: 'Next Level:' },
-    'max_level_label': { tr: 'Maksimum Seviye', en: 'Maximum Level' },
-    'how_to_earn_badges': { tr: 'Nasıl Rozet Kazanırım?', en: 'How to Earn Badges?' },
-    'badges_info_desc': { tr: 'Uygulamayı kullandıkça, yemeklerini tarattıkça ve diyetine sadık kaldıkça otomatik olarak rozet kazanırsın. Her rozet sana ekstra XP kazandırır!', en: 'Earn badges automatically as you use the app, scan meals, and stick to your diet. Each badge grants you extra XP!' },
-
-    // Diet System Pages
-    'diet_plans_title': { tr: 'Diyet Planları', en: 'Diet Plans' },
-    'diet_plans_search_placeholder': { tr: 'Diyet ara...', en: 'Search diet...' },
-    'diet_plans_not_found': { tr: 'Arama kriterlerine uygun diyet bulunamadı.', en: 'No diets found matching your search.' },
-    'diet_start_plan': { tr: 'Bu Plana Başla', en: 'Start This Plan' },
-    'diet_current_plan': { tr: 'Şu Anki Planınız', en: 'Your Current Plan' },
-    'diet_med_plan_warning': { tr: 'Medikal Plan', en: 'Medical Plan' },
-    'diet_difficulty_easy': { tr: 'Kolay', en: 'Easy' },
-    'diet_difficulty_moderate': { tr: 'Orta', en: 'Moderate' },
-    'diet_difficulty_hard': { tr: 'Zor', en: 'Hard' },
-    'diet_benefits': { tr: 'Faydaları', en: 'Benefits' },
-    'diet_recommended_foods': { tr: 'Önerilen Gıdalar', en: 'Recommended Foods' },
-    'diet_avoid_foods': { tr: 'Kaçınılması Gerekenler', en: 'Foods to Avoid' },
-    'diet_important_warnings': { tr: 'Önemli Uyarılar', en: 'Important Warnings' },
-    'diet_macro_target': { tr: 'Makro Hedefi', en: 'Macro Target' },
-    'diet_macro_pct': { tr: 'Kalori Yüzdesi', en: 'Calorie Percentage' },
-
-    // Dashboard Integration
-    'ai_coach_analysis': { tr: 'AI Koç Analizi', en: 'AI Coach Analysis' },
-    'ai_coach_suggestions': { tr: 'Öneriler', en: 'Suggestions' },
-    'diet_weekly_compliance': { tr: 'Haftalık Uyum', en: 'Weekly Compliance' },
-    'streak_consecutive': { tr: 'Seri', en: 'Streak' },
-    'last_earned_achievements': { tr: 'Son Başarılar', en: 'Recent Achievements' },
-    'view_all_badges': { tr: 'Tüm Rozetler', en: 'View All Badges' },
-
-    // Legal & Support
+    // Legal
     'privacy_policy': { tr: 'Gizlilik Politikası', en: 'Privacy Policy' },
     'terms_of_service': { tr: 'Kullanım Koşulları', en: 'Terms of Service' },
+    'refund_policy': { tr: 'İade Politikası', en: 'Refund Policy' },
     'last_updated': { tr: 'Son Güncelleme', en: 'Last Updated' },
-    'paddle_billing_note': { tr: 'Ödeme işlemleriniz Paddle.com tarafından güvenli bir şekilde gerçekleştirilir.', en: 'Your payment is processed securely by Paddle.com.' },
-    'protection': { tr: 'Koruma', en: 'Protection' },
-    'contact_support': { tr: 'Destekle İletişime Geç', en: 'Contact Support' },
+
+    // Scan
+    'scan_processing': { tr: 'Görüntü Optimize Ediliyor...', en: 'Optimizing Image...' },
+    'scan_analyzing': { tr: 'AI Yemeğinizi İnceliyor...', en: 'AI is Analyzing Your Plate...' },
 };
 
 export const useTranslation = () => {
-    const getInitialLang = (): Language => {
-        if (typeof window !== 'undefined') {
-            const browserLang = navigator.language.split('-')[0];
-            return browserLang === 'en' ? 'en' : 'tr';
-        }
-        return 'tr';
-    };
-
-    const [lang, setLang] = useState<Language>(getInitialLang);
+    const { lang, setLang } = useLanguage();
 
     const t = (key: string) => {
         return translations[key]?.[lang] || key;

@@ -21,6 +21,7 @@ import DietDetail from '@/pages/DietDetail';
 import Achievements from '@/pages/Achievements';
 import PrivacyPolicy from '@/pages/PrivacyPolicy';
 import TermsOfService from '@/pages/TermsOfService';
+import RefundPolicy from '@/pages/RefundPolicy';
 
 export const router = createBrowserRouter([
     {
@@ -50,6 +51,10 @@ export const router = createBrowserRouter([
     {
         path: '/terms',
         element: <TermsOfService />,
+    },
+    {
+        path: '/refund',
+        element: <RefundPolicy />,
     },
     {
         path: '/onboarding',
