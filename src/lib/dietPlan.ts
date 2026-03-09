@@ -1,4 +1,4 @@
-import { openai } from './openai';
+import { gemini } from './gemini';
 import { SYSTEM_PROMPT_DIET_PLAN } from './aiPrompts';
 
 export interface DietMeal {
@@ -31,24 +31,17 @@ export const generateDietPlan = async (params: {
     try {
         const userPrompt = `Target Calories: ${params.calories}kcal, Protein: ${params.protein}g, Carbs: ${params.carbs}g, Fat: ${params.fat}g, Diet Preference: ${params.diet_preference}. Please generate a balanced 1-day menu.`;
 
-        const response = await openai.chat.completions.create({
-            model: "gpt-4o",
-            response_format: { type: "json_object" },
-            max_tokens: 1500,
-            temperature: 0.7, // Slightly higher for variety in meal names
-            messages: [
-                {
-                    role: "system",
-                    content: SYSTEM_PROMPT_DIET_PLAN
-                },
-                {
-                    role: "user",
-                    content: userPrompt
-                }
-            ]
+        const response = await gemini.models.generateContent({
+            model: 'gemini-2.5-flash',
+            contents: userPrompt,
+            config: {
+                systemInstruction: SYSTEM_PROMPT_DIET_PLAN,
+                responseMimeType: "application/json",
+                temperature: 0.7,
+            }
         });
 
-        const content = response.choices[0]?.message?.content || "";
+        const content = response.text || "";
         const data = JSON.parse(content);
 
         if (!data.meals || !data.smart_tip) {

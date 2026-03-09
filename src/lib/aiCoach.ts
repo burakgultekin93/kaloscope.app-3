@@ -1,4 +1,4 @@
-import { openai } from './openai';
+import { gemini } from './gemini';
 
 export interface AICoachData {
     mood: 'excellent' | 'good' | 'neutral' | 'warning' | 'alert';
@@ -44,15 +44,7 @@ JSON FORMATINDA YANIT VER:
 
 export async function getDailyAIFeedback(data: DailyData) {
     try {
-        const response = await openai.chat.completions.create({
-            model: "gpt-4o-mini",
-            max_tokens: 500,
-            temperature: 0.7,
-            response_format: { type: "json_object" },
-            messages: [
-                { role: "system", content: COACH_PROMPT },
-                {
-                    role: "user", content: `
+        const userMessage = `
 Tarih: ${data.date}
 Diyet Planı: ${data.diet_plan}
 Diyabet: ${data.has_diabetes ? 'Evet' : 'Hayır'}
@@ -66,11 +58,19 @@ GERÇEKLEŞEN: ${data.consumed.calories} kcal | P:${data.consumed.protein}g | K:
 ÖĞÜNLER:
 ${data.meals.map((m: any) => `- ${m.meal_type}: ${m.name} (${m.calories} kcal)`).join('\n')}
 
-Değerlendir ve JSON döndür.` }
-            ]
+Değerlendir ve JSON döndür.`;
+
+        const response = await gemini.models.generateContent({
+            model: "gemini-2.5-flash",
+            contents: userMessage,
+            config: {
+                systemInstruction: COACH_PROMPT,
+                responseMimeType: "application/json",
+                temperature: 0.7,
+            }
         });
 
-        const content = response.choices[0]?.message?.content;
+        const content = response.text;
         return content ? JSON.parse(content) : null;
     } catch (error) {
         console.error('AI Coach error:', error);
